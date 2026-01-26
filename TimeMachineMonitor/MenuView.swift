@@ -6,6 +6,7 @@ struct MenuView: View {
     var onQuit: () -> Void
 
     @State private var launchAtLogin = LaunchAtLogin.isEnabled
+    @StateObject private var updateChecker = UpdateChecker.shared
 
     private let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -63,6 +64,12 @@ struct MenuView: View {
 
             // Preferences
             preferencesSection
+
+            Divider()
+                .padding(.vertical, 8)
+
+            // About & Updates
+            aboutSection
 
             Divider()
                 .padding(.vertical, 8)
@@ -410,6 +417,53 @@ struct MenuView: View {
             }
             .toggleStyle(.checkbox)
             .padding(.horizontal, 12)
+        }
+    }
+
+    private var aboutSection: some View {
+        VStack(alignment: .leading, spacing: 4) {
+            Button(action: checkForUpdates) {
+                HStack {
+                    if updateChecker.isChecking {
+                        ProgressView()
+                            .scaleEffect(0.7)
+                            .frame(width: 16, height: 16)
+                    } else {
+                        Image(systemName: "arrow.triangle.2.circlepath")
+                    }
+                    Text(updateChecker.isChecking ? "Checking..." : "Check for Updates...")
+                    Spacer()
+                }
+            }
+            .buttonStyle(.plain)
+            .padding(.horizontal, 12)
+            .padding(.vertical, 6)
+            .disabled(updateChecker.isChecking)
+
+            HStack {
+                Text("Version \(currentAppVersion)")
+                    .font(.caption2)
+                    .foregroundColor(.secondary)
+                Spacer()
+            }
+            .padding(.horizontal, 12)
+        }
+    }
+
+    private var currentAppVersion: String {
+        Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0"
+    }
+
+    private func checkForUpdates() {
+        updateChecker.checkForUpdates { result in
+            switch result {
+            case .updateAvailable(let version, let releaseUrl, let downloadUrl):
+                updateChecker.showUpdateAlert(version: version, releaseUrl: releaseUrl, downloadUrl: downloadUrl)
+            case .upToDate:
+                updateChecker.showUpToDateAlert()
+            case .error(let message):
+                updateChecker.showErrorAlert(message: message)
+            }
         }
     }
 

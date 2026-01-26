@@ -15,6 +15,7 @@
 		A1000006 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000006 /* NotificationManager.swift */; };
 		A1000007 /* LaunchAtLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000007 /* LaunchAtLogin.swift */; };
 		A1000008 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A2000008 /* Assets.xcassets */; };
+		A1000009 /* UpdateChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = A200000B /* UpdateChecker.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		A2000008 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A2000009 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A200000A /* TimeMachineMonitor.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TimeMachineMonitor.entitlements; sourceTree = "<group>"; };
+		A200000B /* UpdateChecker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateChecker.swift; sourceTree = "<group>"; };
 		A3000001 /* TimeMachineMonitor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TimeMachineMonitor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -60,6 +62,7 @@
 				A2000005 /* LEDIndicator.swift */,
 				A2000006 /* NotificationManager.swift */,
 				A2000007 /* LaunchAtLogin.swift */,
+				A200000B /* UpdateChecker.swift */,
 				A2000008 /* Assets.xcassets */,
 				A2000009 /* Info.plist */,
 				A200000A /* TimeMachineMonitor.entitlements */,
@@ -151,6 +154,7 @@
 				A1000005 /* LEDIndicator.swift in Sources */,
 				A1000006 /* NotificationManager.swift in Sources */,
 				A1000007 /* LaunchAtLogin.swift in Sources */,
+				A1000009 /* UpdateChecker.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
