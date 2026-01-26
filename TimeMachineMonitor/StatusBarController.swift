@@ -41,9 +41,13 @@ class StatusBarController {
             }
         )
 
-        popover.contentViewController = NSHostingController(rootView: menuView)
+        let hostingController = NSHostingController(rootView: menuView)
+        // Set a reasonable initial size to avoid layout issues
+        hostingController.view.frame = NSRect(x: 0, y: 0, width: 280, height: 400)
+
+        popover.contentViewController = hostingController
         popover.behavior = .transient
-        popover.animates = true
+        popover.animates = false  // Disable animation to reduce layout recursion issues
     }
 
     private func setupBindings() {
@@ -135,12 +139,8 @@ class StatusBarController {
         if popover.isShown {
             popover.performClose(nil)
         } else if let button = statusItem.button {
-            // Defer popover show to next run loop to avoid layout recursion
-            DispatchQueue.main.async { [weak self] in
-                guard let self = self else { return }
-                self.popover.show(relativeTo: button.bounds, of: button, preferredEdge: .minY)
-                self.popover.contentViewController?.view.window?.makeKey()
-            }
+            popover.show(relativeTo: button.bounds, of: button, preferredEdge: .minY)
+            popover.contentViewController?.view.window?.makeKey()
         }
     }
 

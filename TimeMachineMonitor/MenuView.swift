@@ -166,15 +166,35 @@ struct MenuView: View {
                 .padding(.horizontal, 12)
 
             VStack(alignment: .leading, spacing: 6) {
-                infoRow(label: "Destination", value: timeMachineService.status.destinationName)
+                HStack {
+                    Text("Destination")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                    Spacer()
+                    HStack(spacing: 4) {
+                        Text(timeMachineService.status.destinationName)
+                            .font(.caption)
+                            .lineLimit(1)
+                        if timeMachineService.status.destinationConnected {
+                            Image(systemName: "checkmark.circle.fill")
+                                .font(.caption2)
+                                .foregroundColor(.green)
+                        } else {
+                            Image(systemName: "eject.circle")
+                                .font(.caption2)
+                                .foregroundColor(.orange)
+                        }
+                    }
+                }
 
                 if let lastBackup = timeMachineService.status.lastBackupDate {
                     infoRow(label: "Last Backup", value: formatDate(lastBackup))
                 } else {
-                    infoRow(label: "Last Backup", value: "Never")
+                    infoRow(label: "Last Backup", value: "Unknown")
                 }
 
-                if let nextBackup = timeMachineService.status.nextBackupDate {
+                if let nextBackup = timeMachineService.status.nextBackupDate,
+                   timeMachineService.status.destinationConnected {
                     infoRow(label: "Next Backup", value: formatRelativeTime(nextBackup))
                 }
             }
@@ -230,22 +250,18 @@ struct MenuView: View {
 
     private var recentBackupsSection: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text("Recent Backups")
-                .font(.caption)
-                .foregroundColor(.secondary)
-                .padding(.horizontal, 12)
-
-            if timeMachineService.status.recentBackups.isEmpty {
-                Text("No recent backups")
+            // Show actual backups if available
+            if !timeMachineService.status.recentBackups.isEmpty {
+                Text("Recent Backups")
                     .font(.caption)
                     .foregroundColor(.secondary)
                     .padding(.horizontal, 12)
-            } else {
+
                 VStack(alignment: .leading, spacing: 4) {
                     ForEach(timeMachineService.status.recentBackups.indices, id: \.self) { index in
                         let backup = timeMachineService.status.recentBackups[index]
                         HStack {
-                            Image(systemName: "clock.arrow.circlepath")
+                            Image(systemName: "externaldrive.fill")
                                 .font(.caption)
                                 .foregroundColor(.secondary)
                             Text(dateFormatter.string(from: backup.timestamp))
@@ -256,8 +272,47 @@ struct MenuView: View {
                 }
                 .padding(.horizontal, 12)
             }
+
+            // Show local snapshots separately
+            if !timeMachineService.status.localSnapshots.isEmpty {
+                if !timeMachineService.status.recentBackups.isEmpty {
+                    Divider()
+                        .padding(.vertical, 4)
+                }
+
+                Text("Local Snapshots")
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+                    .padding(.horizontal, 12)
+
+                VStack(alignment: .leading, spacing: 4) {
+                    ForEach(timeMachineService.status.localSnapshots.indices, id: \.self) { index in
+                        let snapshot = timeMachineService.status.localSnapshots[index]
+                        HStack {
+                            Image(systemName: "internaldrive")
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                            Text(dateFormatter.string(from: snapshot.timestamp))
+                                .font(.caption)
+                            Spacer()
+                        }
+                    }
+                }
+                .padding(.horizontal, 12)
+            }
+
+            // Show message if nothing available
+            if timeMachineService.status.recentBackups.isEmpty && timeMachineService.status.localSnapshots.isEmpty {
+                Text("No backup history available")
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+                    .padding(.horizontal, 12)
+            }
         }
     }
+
+    @State private var isEjecting = false
+    @State private var ejectError: String? = nil
 
     private var actionsSection: some View {
         VStack(alignment: .leading, spacing: 4) {
@@ -273,7 +328,44 @@ struct MenuView: View {
             .buttonStyle(.plain)
             .padding(.horizontal, 12)
             .padding(.vertical, 6)
-            .disabled(timeMachineService.status.isBackingUp)
+            .disabled(timeMachineService.status.isBackingUp || !timeMachineService.status.destinationConnected)
+
+            // Eject button - only show when disk is connected and not backing up
+            if timeMachineService.status.destinationConnected {
+                Button(action: {
+                    isEjecting = true
+                    ejectError = nil
+                    timeMachineService.ejectBackupDisk { success, error in
+                        isEjecting = false
+                        if !success {
+                            ejectError = error
+                        }
+                    }
+                }) {
+                    HStack {
+                        if isEjecting {
+                            ProgressView()
+                                .scaleEffect(0.7)
+                                .frame(width: 16, height: 16)
+                        } else {
+                            Image(systemName: "eject.fill")
+                        }
+                        Text(isEjecting ? "Ejecting..." : "Eject \(timeMachineService.status.destinationName)")
+                        Spacer()
+                    }
+                }
+                .buttonStyle(.plain)
+                .padding(.horizontal, 12)
+                .padding(.vertical, 6)
+                .disabled(timeMachineService.status.isBackingUp || isEjecting)
+
+                if let error = ejectError {
+                    Text(error)
+                        .font(.caption2)
+                        .foregroundColor(.red)
+                        .padding(.horizontal, 12)
+                }
+            }
 
             Button(action: {
                 // Open Time Machine pane directly in System Settings (macOS 13+)
