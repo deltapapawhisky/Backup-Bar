@@ -1,4 +1,4 @@
-# Time Machine Monitor
+# Backup Bar
 
 A lightweight macOS menu bar application that displays the current Time Machine backup status via an LED indicator, providing at-a-glance safety confirmation for disconnecting external storage.
 
