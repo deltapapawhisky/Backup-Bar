@@ -39,7 +39,7 @@ class UpdateChecker: ObservableObject {
     static let shared = UpdateChecker()
 
     private let githubOwner = "deltapapawhisky"
-    private let githubRepo = "TimeMachineMonitor"
+    private let githubRepo = "backup-bar"
 
     @Published var isChecking = false
     @Published var lastCheckResult: UpdateCheckResult?
@@ -163,7 +163,7 @@ class UpdateChecker: ObservableObject {
     func showUpdateAlert(version: String, releaseUrl: String, downloadUrl: String?) {
         let alert = NSAlert()
         alert.messageText = "Update Available"
-        alert.informativeText = "Time Machine Monitor \(version) is available. You are currently running version \(currentVersion)."
+        alert.informativeText = "Backup Bar \(version) is available. You are currently running version \(currentVersion)."
         alert.alertStyle = .informational
 
         if downloadUrl != nil {
@@ -205,7 +205,7 @@ class UpdateChecker: ObservableObject {
     func showUpToDateAlert() {
         let alert = NSAlert()
         alert.messageText = "You're Up to Date"
-        alert.informativeText = "Time Machine Monitor \(currentVersion) is the latest version."
+        alert.informativeText = "Backup Bar \(currentVersion) is the latest version."
         alert.alertStyle = .informational
         alert.addButton(withTitle: "OK")
         alert.runModal()

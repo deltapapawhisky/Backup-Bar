@@ -2,7 +2,7 @@ import Foundation
 import ServiceManagement
 
 enum LaunchAtLogin {
-    private static let bundleIdentifier = Bundle.main.bundleIdentifier ?? "com.timemachinemonitor.app"
+    private static let bundleIdentifier = Bundle.main.bundleIdentifier ?? "com.backupbar.app"
 
     static var isEnabled: Bool {
         get {

@@ -23,7 +23,7 @@ A lightweight macOS menu bar application that displays the current Time Machine 
 
 ## Installation
 
-1. Open `TimeMachineMonitor.xcodeproj` in Xcode
+1. Open `BackupBar.xcodeproj` in Xcode
 2. Select your development team in Signing & Capabilities
 3. Build and run (⌘R)
 4. The app will appear in your menu bar as a colored LED indicator
@@ -39,8 +39,8 @@ A lightweight macOS menu bar application that displays the current Time Machine 
 ## Architecture
 
 ```
-TimeMachineMonitor/
-├── TimeMachineMonitorApp.swift    # App entry point and delegate
+BackupBar/
+├── BackupBarApp.swift             # App entry point and delegate
 ├── StatusBarController.swift       # Menu bar item management
 ├── TimeMachineService.swift        # tmutil interface and status polling
 ├── MenuView.swift                  # SwiftUI dropdown menu

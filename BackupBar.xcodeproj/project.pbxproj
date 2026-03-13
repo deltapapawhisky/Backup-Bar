@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A1000001 /* TimeMachineMonitorApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000001 /* TimeMachineMonitorApp.swift */; };
+		A1000001 /* BackupBarApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000001 /* BackupBarApp.swift */; };
 		A1000002 /* StatusBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000002 /* StatusBarController.swift */; };
 		A1000003 /* TimeMachineService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000003 /* TimeMachineService.swift */; };
 		A1000004 /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000004 /* MenuView.swift */; };
@@ -19,7 +19,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		A2000001 /* TimeMachineMonitorApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeMachineMonitorApp.swift; sourceTree = "<group>"; };
+		A2000001 /* BackupBarApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackupBarApp.swift; sourceTree = "<group>"; };
 		A2000002 /* StatusBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBarController.swift; sourceTree = "<group>"; };
 		A2000003 /* TimeMachineService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeMachineService.swift; sourceTree = "<group>"; };
 		A2000004 /* MenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
@@ -28,9 +28,9 @@
 		A2000007 /* LaunchAtLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchAtLogin.swift; sourceTree = "<group>"; };
 		A2000008 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A2000009 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		A200000A /* TimeMachineMonitor.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TimeMachineMonitor.entitlements; sourceTree = "<group>"; };
+		A200000A /* BackupBar.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BackupBar.entitlements; sourceTree = "<group>"; };
 		A200000B /* UpdateChecker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateChecker.swift; sourceTree = "<group>"; };
-		A3000001 /* TimeMachineMonitor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TimeMachineMonitor.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A3000001 /* BackupBar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BackupBar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,15 +47,15 @@
 		A5000001 = {
 			isa = PBXGroup;
 			children = (
-				A5000002 /* TimeMachineMonitor */,
+				A5000002 /* BackupBar */,
 				A5000003 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		A5000002 /* TimeMachineMonitor */ = {
+		A5000002 /* BackupBar */ = {
 			isa = PBXGroup;
 			children = (
-				A2000001 /* TimeMachineMonitorApp.swift */,
+				A2000001 /* BackupBarApp.swift */,
 				A2000002 /* StatusBarController.swift */,
 				A2000003 /* TimeMachineService.swift */,
 				A2000004 /* MenuView.swift */,
@@ -65,15 +65,15 @@
 				A200000B /* UpdateChecker.swift */,
 				A2000008 /* Assets.xcassets */,
 				A2000009 /* Info.plist */,
-				A200000A /* TimeMachineMonitor.entitlements */,
+				A200000A /* BackupBar.entitlements */,
 			);
-			path = TimeMachineMonitor;
+			path = BackupBar;
 			sourceTree = "<group>";
 		};
 		A5000003 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				A3000001 /* TimeMachineMonitor.app */,
+				A3000001 /* BackupBar.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -81,9 +81,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		A6000001 /* TimeMachineMonitor */ = {
+		A6000001 /* BackupBar */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = A7000003 /* Build configuration list for PBXNativeTarget "TimeMachineMonitor" */;
+			buildConfigurationList = A7000003 /* Build configuration list for PBXNativeTarget "BackupBar" */;
 			buildPhases = (
 				A4000002 /* Sources */,
 				A4000001 /* Frameworks */,
@@ -93,9 +93,9 @@
 			);
 			dependencies = (
 			);
-			name = TimeMachineMonitor;
-			productName = TimeMachineMonitor;
-			productReference = A3000001 /* TimeMachineMonitor.app */;
+			name = BackupBar;
+			productName = BackupBar;
+			productReference = A3000001 /* BackupBar.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -113,7 +113,7 @@
 					};
 				};
 			};
-			buildConfigurationList = A7000001 /* Build configuration list for PBXProject "TimeMachineMonitor" */;
+			buildConfigurationList = A7000001 /* Build configuration list for PBXProject "BackupBar" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -126,7 +126,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				A6000001 /* TimeMachineMonitor */,
+				A6000001 /* BackupBar */,
 			);
 		};
 /* End PBXProject section */
@@ -147,7 +147,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A1000001 /* TimeMachineMonitorApp.swift in Sources */,
+				A1000001 /* BackupBarApp.swift in Sources */,
 				A1000002 /* StatusBarController.swift in Sources */,
 				A1000003 /* TimeMachineService.swift in Sources */,
 				A1000004 /* MenuView.swift in Sources */,
@@ -288,7 +288,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = TimeMachineMonitor/TimeMachineMonitor.entitlements;
+				CODE_SIGN_ENTITLEMENTS = BackupBar/BackupBar.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -296,7 +296,7 @@
 				ENABLE_APP_SANDBOX = NO;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = NO;
-				INFOPLIST_FILE = TimeMachineMonitor/Info.plist;
+				INFOPLIST_FILE = BackupBar/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -304,7 +304,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.timemachinemonitor.app;
+				PRODUCT_BUNDLE_IDENTIFIER = com.backupbar.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -316,7 +316,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = TimeMachineMonitor/TimeMachineMonitor.entitlements;
+				CODE_SIGN_ENTITLEMENTS = BackupBar/BackupBar.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -324,7 +324,7 @@
 				ENABLE_APP_SANDBOX = NO;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = NO;
-				INFOPLIST_FILE = TimeMachineMonitor/Info.plist;
+				INFOPLIST_FILE = BackupBar/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -332,7 +332,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.timemachinemonitor.app;
+				PRODUCT_BUNDLE_IDENTIFIER = com.backupbar.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -342,7 +342,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		A7000001 /* Build configuration list for PBXProject "TimeMachineMonitor" */ = {
+		A7000001 /* Build configuration list for PBXProject "BackupBar" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A9000001 /* Debug */,
@@ -351,7 +351,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		A7000003 /* Build configuration list for PBXNativeTarget "TimeMachineMonitor" */ = {
+		A7000003 /* Build configuration list for PBXNativeTarget "BackupBar" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A9000003 /* Debug */,

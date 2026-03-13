@@ -77,7 +77,7 @@ struct MenuView: View {
             // Quit
             Button(action: onQuit) {
                 HStack {
-                    Text("Quit Time Machine Monitor")
+                    Text("Quit Backup Bar")
                     Spacer()
                     Text("⌘Q")
                         .foregroundColor(.secondary)
