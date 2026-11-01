@@ -14,7 +14,7 @@ MVVM + Combine. Hybrid AppKit (menu bar) + SwiftUI (popover content).
 BackupBar/
   BackupBarApp.swift             # @main entry, AppDelegate adaptor
   StatusBarController.swift      # NSStatusItem, custom LED icon, NSPopover toggle
-  TimeMachineService.swift       # Core monitor — polls tmutil every 5 seconds
+  TimeMachineService.swift       # Core monitor — polls live state every 5 seconds, refreshes history on demand
   MenuView.swift                 # SwiftUI popover content
   LEDIndicator.swift             # LED visual component (menu bar + popover variants)
   NotificationManager.swift      # System notifications for backup events
@@ -24,14 +24,16 @@ BackupBar/
 
 ## How It Works
 
-`TimeMachineService` polls on a background queue every 5 seconds using system commands:
+`TimeMachineService` polls on a background queue every 5 seconds. **The poll must never touch the backup destination** — on network disks that shows up as constant NAS activity:
 1. `tmutil status` — current backup state
 2. `tmutil destinationinfo` — backup disk info
-3. `tmutil latestbackup` — most recent backup
-4. `tmutil listbackups` — recent history (last 3)
-5. `tmutil listlocalsnapshots` — local APFS snapshots
-6. `defaults read com.apple.TimeMachine` — cached dates when disk disconnected
-7. `diskutil` — disk space info
+
+Everything else is a history refresh, run only on launch, when a backup finishes and when the popover opens:
+1. `tmutil latestbackup` — most recent backup (opens a backupd session with the destination)
+2. `tmutil listbackups` — recent history, last 3 (opens a backupd session with the destination)
+3. `tmutil listlocalsnapshots` — local APFS snapshots
+4. `defaults read com.apple.TimeMachine` — cached dates when disk disconnected
+5. File system attributes of the mount point — disk space info
 
 Status published via `@Published var status: TimeMachineStatus` → Combine sink updates UI.
 
@@ -45,4 +47,4 @@ Status published via `@Published var status: TimeMachineStatus` → Combine sink
 
 - LSUIElement: true (menu bar only, no dock icon)
 - LED icon is custom-drawn, not an asset
-- No test targets
+- Tests: `xcodebuild test -project BackupBar.xcodeproj -scheme BackupBar -destination 'platform=macOS'`

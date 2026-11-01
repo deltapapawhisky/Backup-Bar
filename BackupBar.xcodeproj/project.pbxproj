@@ -16,6 +16,8 @@
 		A1000007 /* LaunchAtLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000007 /* LaunchAtLogin.swift */; };
 		A1000008 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A2000008 /* Assets.xcassets */; };
 		A1000009 /* UpdateChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = A200000B /* UpdateChecker.swift */; };
+		A1000010 /* TimeMachineServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A200000C /* TimeMachineServiceTests.swift */; };
+		A1000011 /* TimeMachineService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000003 /* TimeMachineService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,10 +33,19 @@
 		A200000A /* BackupBar.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BackupBar.entitlements; sourceTree = "<group>"; };
 		A200000B /* UpdateChecker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateChecker.swift; sourceTree = "<group>"; };
 		A3000001 /* BackupBar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BackupBar.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A200000C /* TimeMachineServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeMachineServiceTests.swift; sourceTree = "<group>"; };
+		A3000002 /* BackupBarTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BackupBarTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		A4000001 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A4000004 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -48,6 +59,7 @@
 			isa = PBXGroup;
 			children = (
 				A5000002 /* BackupBar */,
+				A5000004 /* BackupBarTests */,
 				A5000003 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -74,8 +86,17 @@
 			isa = PBXGroup;
 			children = (
 				A3000001 /* BackupBar.app */,
+				A3000002 /* BackupBarTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		A5000004 /* BackupBarTests */ = {
+			isa = PBXGroup;
+			children = (
+				A200000C /* TimeMachineServiceTests.swift */,
+			);
+			path = BackupBarTests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -98,6 +119,22 @@
 			productReference = A3000001 /* BackupBar.app */;
 			productType = "com.apple.product-type.application";
 		};
+		A6000002 /* BackupBarTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A7000004 /* Build configuration list for PBXNativeTarget "BackupBarTests" */;
+			buildPhases = (
+				A4000005 /* Sources */,
+				A4000004 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = BackupBarTests;
+			productName = BackupBarTests;
+			productReference = A3000002 /* BackupBarTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -109,6 +146,9 @@
 				LastUpgradeCheck = 2620;
 				TargetAttributes = {
 					A6000001 = {
+						CreatedOnToolsVersion = 15.0;
+					};
+					A6000002 = {
 						CreatedOnToolsVersion = 15.0;
 					};
 				};
@@ -127,6 +167,7 @@
 			projectRoot = "";
 			targets = (
 				A6000001 /* BackupBar */,
+				A6000002 /* BackupBarTests */,
 			);
 		};
 /* End PBXProject section */
@@ -155,6 +196,15 @@
 				A1000006 /* NotificationManager.swift in Sources */,
 				A1000007 /* LaunchAtLogin.swift in Sources */,
 				A1000009 /* UpdateChecker.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A4000005 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A1000010 /* TimeMachineServiceTests.swift in Sources */,
+				A1000011 /* TimeMachineService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -291,7 +341,7 @@
 				CODE_SIGN_ENTITLEMENTS = BackupBar/BackupBar.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEAD_CODE_STRIPPING = YES;
 				ENABLE_APP_SANDBOX = NO;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -303,7 +353,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.backupbar.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -319,7 +369,7 @@
 				CODE_SIGN_ENTITLEMENTS = BackupBar/BackupBar.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEAD_CODE_STRIPPING = YES;
 				ENABLE_APP_SANDBOX = NO;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -331,10 +381,36 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.backupbar.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		A9000005 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
+				GENERATE_INFOPLIST_FILE = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.backupbar.tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		A9000006 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
+				GENERATE_INFOPLIST_FILE = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.backupbar.tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
@@ -356,6 +432,15 @@
 			buildConfigurations = (
 				A9000003 /* Debug */,
 				A9000004 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A7000004 /* Build configuration list for PBXNativeTarget "BackupBarTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A9000005 /* Debug */,
+				A9000006 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

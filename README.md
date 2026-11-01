@@ -54,7 +54,7 @@ BackupBar/
 
 - Built with SwiftUI and AppKit
 - Uses `tmutil` command-line tool for Time Machine status
-- Polls every 5 seconds for status updates
+- Polls backup status every 5 seconds; reads backup history only on launch, after a backup and when the menu opens, so an idle backup disk stays idle
 - LSUIElement app (no dock icon)
 - Sandboxing disabled to allow `tmutil` access
 

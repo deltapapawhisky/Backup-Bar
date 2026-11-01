@@ -23,6 +23,19 @@ struct TimeMachineStatus {
     var localSnapshots: [BackupInfo] = []    // Local APFS snapshots
     var errorMessage: String? = nil
     var hasFullDiskAccess: Bool = false
+
+    /// Keeps the fields only a history refresh can update when the rest of the status changes.
+    mutating func copyHistory(from other: TimeMachineStatus) {
+        lastBackupDate = other.lastBackupDate
+        lastLocalSnapshotDate = other.lastLocalSnapshotDate
+        nextBackupDate = other.nextBackupDate
+        backupSizeUsed = other.backupSizeUsed
+        diskSpaceAvailable = other.diskSpaceAvailable
+        diskSpaceTotal = other.diskSpaceTotal
+        recentBackups = other.recentBackups
+        localSnapshots = other.localSnapshots
+        hasFullDiskAccess = other.hasFullDiskAccess
+    }
 }
 
 class TimeMachineService: ObservableObject {
@@ -30,14 +43,21 @@ class TimeMachineService: ObservableObject {
 
     private var timer: Timer?
     private var previouslyBackingUp: Bool = false
-    private let pollInterval: TimeInterval = 5.0
+    private var isRefreshingHistory: Bool = false
+    private var historyRefreshPending: Bool = false
+    private let pollInterval: TimeInterval
+    private let commandRunner: (String, [String]) -> String?
 
-    init() {
+    init(pollInterval: TimeInterval = 5.0,
+         commandRunner: @escaping (String, [String]) -> String? = TimeMachineService.runProcess) {
+        self.pollInterval = pollInterval
+        self.commandRunner = commandRunner
         startMonitoring()
     }
 
     func startMonitoring() {
         updateStatus()
+        refreshBackupHistory()
         timer = Timer.scheduledTimer(withTimeInterval: pollInterval, repeats: true) { [weak self] _ in
             self?.updateStatus()
         }
@@ -48,7 +68,34 @@ class TimeMachineService: ObservableObject {
         timer = nil
     }
 
-    func checkFullDiskAccess() -> Bool {
+    /// Re-reads backup history and disk space. tmutil latestbackup/listbackups open a session
+    /// with the backup destination, which causes disk activity on network backup disks, so this
+    /// runs only on launch, when a backup finishes and when the popover opens - never on the poll timer.
+    func refreshBackupHistory() {
+        guard !isRefreshingHistory else {
+            historyRefreshPending = true
+            return
+        }
+        isRefreshingHistory = true
+
+        DispatchQueue.global(qos: .background).async { [weak self] in
+            guard let self = self else { return }
+
+            let history = self.fetchBackupHistory(for: self.fetchLiveStatus())
+
+            DispatchQueue.main.async {
+                self.status.copyHistory(from: history)
+                self.isRefreshingHistory = false
+
+                if self.historyRefreshPending {
+                    self.historyRefreshPending = false
+                    self.refreshBackupHistory()
+                }
+            }
+        }
+    }
+
+    private func checkFullDiskAccess(latestBackupOutput: String?) -> Bool {
         // Try multiple methods to detect FDA
 
         // Method 1: Check if we can read a protected TCC database
@@ -58,9 +105,9 @@ class TimeMachineService: ObservableObject {
             return true
         }
 
-        // Method 2: Try running tmutil latestbackup and check if it works
+        // Method 2: Check whether tmutil latestbackup worked
         // This is the most reliable test for Time Machine FDA access
-        if let output = runCommand("/usr/bin/tmutil", arguments: ["latestbackup"]) {
+        if let output = latestBackupOutput {
             // If we get output that doesn't contain "requires Full Disk Access", we have FDA
             let hasFDA = !output.contains("requires Full Disk Access") && !output.contains("error")
             if hasFDA {
@@ -161,25 +208,30 @@ class TimeMachineService: ObservableObject {
         DispatchQueue.global(qos: .background).async { [weak self] in
             guard let self = self else { return }
 
-            let newStatus = self.fetchTimeMachineStatus()
+            var newStatus = self.fetchLiveStatus()
 
             DispatchQueue.main.async {
                 let wasBackingUp = self.previouslyBackingUp
                 self.previouslyBackingUp = newStatus.isBackingUp
+
+                newStatus.copyHistory(from: self.status)
+                if !newStatus.destinationConnected {
+                    newStatus.diskSpaceAvailable = nil
+                    newStatus.diskSpaceTotal = nil
+                }
                 self.status = newStatus
 
                 if wasBackingUp && !newStatus.isBackingUp {
                     NotificationCenter.default.post(name: .backupCompleted, object: nil)
+                    self.refreshBackupHistory()
                 }
             }
         }
     }
 
-    private func fetchTimeMachineStatus() -> TimeMachineStatus {
+    /// Runs on every poll, so must only use commands that don't touch the backup destination.
+    private func fetchLiveStatus() -> TimeMachineStatus {
         var newStatus = TimeMachineStatus()
-
-        // Check Full Disk Access status
-        newStatus.hasFullDiskAccess = checkFullDiskAccess()
 
         // Get current backup status
         if let statusOutput = runCommand("/usr/bin/tmutil", arguments: ["status"]) {
@@ -210,6 +262,12 @@ class TimeMachineService: ObservableObject {
             }
         }
 
+        return newStatus
+    }
+
+    private func fetchBackupHistory(for liveStatus: TimeMachineStatus) -> TimeMachineStatus {
+        var newStatus = liveStatus
+
         // Get disk space info
         if !newStatus.destinationPath.isEmpty {
             if let spaceInfo = getDiskSpace(path: newStatus.destinationPath) {
@@ -219,7 +277,10 @@ class TimeMachineService: ObservableObject {
         }
 
         // Try to get backup info from tmutil (requires FDA and connected disk)
-        if let latestOutput = runCommand("/usr/bin/tmutil", arguments: ["latestbackup"]) {
+        let latestBackupOutput = runCommand("/usr/bin/tmutil", arguments: ["latestbackup"])
+        newStatus.hasFullDiskAccess = checkFullDiskAccess(latestBackupOutput: latestBackupOutput)
+
+        if let latestOutput = latestBackupOutput {
             let path = latestOutput.trimmingCharacters(in: .whitespacesAndNewlines)
             // Check if we got valid output (not an error message)
             if !path.isEmpty &&
@@ -503,6 +564,10 @@ class TimeMachineService: ObservableObject {
     }
 
     private func runCommand(_ command: String, arguments: [String]) -> String? {
+        return commandRunner(command, arguments)
+    }
+
+    private static func runProcess(_ command: String, arguments: [String]) -> String? {
         let process = Process()
         process.executableURL = URL(fileURLWithPath: command)
         process.arguments = arguments
