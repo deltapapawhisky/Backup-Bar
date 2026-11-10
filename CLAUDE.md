@@ -6,6 +6,8 @@ macOS menu bar utility that monitors Time Machine backup status. macOS 13.0+.
 
 Open `BackupBar.xcodeproj` in Xcode, build the **BackupBar** target.
 
+Release: `bash scripts/build-release.sh` archives, signs with the FAVR LIMITED (QMK68Z7M52) Developer ID, notarizes (keychain profile `MacLayout-Notarize`), staples and writes `build/BackupBar-vX.Y.Z.app.zip`. Upload that zip, never a plain Xcode build, or Gatekeeper blocks the download.
+
 ## Architecture
 
 MVVM + Combine. Hybrid AppKit (menu bar) + SwiftUI (popover content).
